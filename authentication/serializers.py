@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers as rest_serializers
+from rest_framework import (
+    exceptions as rest_exceptions,
+    serializers as rest_serializers
+)
 from rest_framework.authentication import authenticate
 from rest_framework.authtoken import models as rest_auth_models
 
@@ -33,6 +36,9 @@ class UserLoginSerializer(rest_serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = authenticate(**validated_data)
+        if not user:
+            raise rest_exceptions.AuthenticationFailed()
+
         return user
 
     class Meta:
