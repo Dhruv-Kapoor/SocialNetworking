@@ -22,3 +22,7 @@
     ```
 - Go to http://localhost:8000/admin/ to check if servers are running properly
 
+
+## Postman Collection
+
+[Collection Link](https://www.postman.com/lunar-module-geoscientist-72168123/workspace/accuknox/collection/14370909-6f3b4a24-40cd-4e32-9b95-1a494cea00a6?action=share&creator=14370909)
