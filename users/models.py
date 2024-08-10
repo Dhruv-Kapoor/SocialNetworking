@@ -40,3 +40,8 @@ class CustomUser(AbstractUser):
 
     def __str__(self) -> str:
         return self.full_name or self.email
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['email'])
+        ]

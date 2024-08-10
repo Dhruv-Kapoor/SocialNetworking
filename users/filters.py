@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.search import SearchQuery, SearchVector
-from django.db.models import Q
+from django.db.models import F, Q, Value
+from django.db.models.functions import Concat
 from django_filters.rest_framework import (
     FilterSet,
     filters as rest_filters
@@ -19,16 +20,9 @@ class UsersListFilterSet(FilterSet):
         if not value:
             return qs
 
-        value = value.lower()
-
-        sq = SearchQuery('')
-        bits = smart_split(value)
-        for bit in bits:
-            sq |= SearchQuery(bit)
-        
         return qs.annotate(
-            sv=SearchVector('first_name', 'last_name')
+            user_full_name=Concat(F('first_name'), Value(' '), F('last_name'))
         ).filter(
-            Q(email=value) | Q(sv__icontains=sq)
+            Q(email=value.lower()) | Q(user_full_name__icontains=value)
         )
 
